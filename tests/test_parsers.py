@@ -34,19 +34,19 @@ def test_FastaParser():
     provided in /tests/bad.fa and /tests/empty.fa
     """
     # Valid Fasta
-    fasta_parser = FastaParser("good.fasta")
+    fasta_parser = FastaParser("tests/good.fasta")
     sequences = list(fasta_parser)
     assert len(sequences) == 2
     assert sequences[0] == ("seq1", "ATGC")
     assert sequences[1] == ("seq2", "GCTA")
 
     # Eempty Fasta
-    fasta_parser = FastaParser("blank.fasta")
+    fasta_parser = FastaParser("tests/blank.fasta")
     with pytest.raises(ValueError, match="File .* had 0 lines"):
         list(fasta_parser)
 
     # Bad Fasta
-    fasta_parser = FastaParser("bad.fasta")
+    fasta_parser = FastaParser("tests/bad.fasta")
     with pytest.raises(ValueError):
         list(fasta_parser)
 
@@ -57,7 +57,7 @@ def test_FastaFormat():
     read, the first item is None
     """
     # Test if a Fastq file is passed instead of Fasta
-    fasta_parser = FastaParser("good.fastq")
+    fasta_parser = FastaParser("tests/good.fastq")
     with pytest.raises(ValueError):
         list(fasta_parser)
 
@@ -69,19 +69,19 @@ def test_FastqParser():
     in the example Fastq File.
     """
     # valid Fastq
-    fastq_parser = FastqParser("good.fastq")
+    fastq_parser = FastqParser("tests/good.fastq")
     reads = list(fastq_parser)
     assert len(reads) == 2
     assert reads[0] == ("seq1", "ATGC", "IIII")
     assert reads[1] == ("seq2", "GCTA", "JJJJ")
 
     # empty Fastq
-    fastq_parser = FastqParser("blank.fastq")
+    fastq_parser = FastqParser("tests/blank.fastq")
     with pytest.raises(ValueError, match="File .* had 0 lines"):
         list(fastq_parser)
 
     # corrupted Fastq
-    fastq_parser = FastqParser("bad.fastq")
+    fastq_parser = FastqParser("tests/bad.fastq")
     with pytest.raises(ValueError):
         list(fastq_parser)
 
@@ -90,6 +90,6 @@ def test_FastqFormat():
     Test to make sure fastq file is being read in. If this is a fasta file, the
     first line is None
     """
-    fastq_parser = FastqParser("good.fasta")
+    fastq_parser = FastqParser("tests/good.fasta")
     with pytest.raises(ValueError):
         list(fastq_parser)
