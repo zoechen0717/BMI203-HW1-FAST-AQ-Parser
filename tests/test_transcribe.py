@@ -20,16 +20,52 @@ def test_freebie_transcribe_2():
     """
     assert 1 != 2
 
-        
+
 def test_transcribe():
     """
-    Write your unit test for the transcribe function here.
+    Unit tests for the transcribe function.
     """
-    pass
+    # Test with a valid DNA sequence
+    assert transcribe("A") == "U"
+    assert transcribe("TTT") == "AAA"
+    assert transcribe("ATCG") == "UAGC"
+    assert transcribe("TTAGCC") == "AAUCGG"
+
+    # Test with an empty DNA sequence
+    try:
+        transcribe("")
+    except ValueError as e:
+        assert str(e) == "Invalid input"
+
+    # Test with invalid characters in the sequence
+    try:
+        transcribe("ATXG")
+    except ValueError as e:
+        assert str(e) == "Invalid nucleotide"
+
+    print("pass")
 
 
 def test_reverse_transcribe():
     """
-    Write your unit test for the reverse transcribe function here.
+    Unit tests for the reverse_transcribe function.
     """
-    pass
+    # Test with a valid DNA sequence
+    assert reverse_transcribe("A") == "U"
+    assert reverse_transcribe("AAA") == "UUU"
+    assert reverse_transcribe("ATCG") == "CGAU"
+    assert reverse_transcribe("TTAGCC") == "GGCUAA"
+
+    # Test with an empty input
+    try:
+        reverse_transcribe("")
+    except ValueError as e:
+        assert str(e) == "Invalid input"
+
+    # Test with invalid characters in the sequence
+    try:
+        reverse_transcribe("ATXG")
+    except ValueError as e:
+        assert str(e) == "Invalid nucleotide"
+
+    print("pass")
