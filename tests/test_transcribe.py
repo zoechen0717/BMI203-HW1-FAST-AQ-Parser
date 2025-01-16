@@ -43,8 +43,6 @@ def test_transcribe():
     except ValueError as e:
         assert str(e) == "Invalid nucleotide"
 
-    print("pass")
-
 
 def test_reverse_transcribe():
     """
@@ -67,5 +65,3 @@ def test_reverse_transcribe():
         reverse_transcribe("ATXG")
     except ValueError as e:
         assert str(e) == "Invalid nucleotide"
-
-    print("pass")
