@@ -35,7 +35,7 @@ def test_FastaParser():
     """
     # Valid Fasta
     parser = FastaParser("tests/good.fasta")
-    seq = list(fasta_parser)
+    seq = list(parser)
     assert seq[0] == ("seq1", "ATGC")
     assert seq[1] == ("seq2", "GCTA")
 
@@ -46,7 +46,8 @@ def test_FastaParser():
 
     # Bad Fasta
     parser = FastaParser("tests/bad.fasta")
-    assert parser == ("seq1", "ATGC")
+    seq = list(parser)
+    assert seq[0] == ("seq1", "ATGC")
 
 
 def test_FastaFormat():
@@ -85,7 +86,8 @@ def test_FastqParser():
 
     # corrupted Fastq
     parser = FastqParser("tests/bad.fastq")
-    assert parser == ('seq1', 'ATGC', 'IIII')
+    reads = list(parser)
+    assert reads[0] == ('seq1', 'ATGC', 'IIII')
 
 def test_FastqFormat():
     """
