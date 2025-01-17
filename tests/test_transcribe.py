@@ -30,6 +30,8 @@ def test_transcribe():
     assert transcribe("TTT") == "AAA"
     assert transcribe("ATCG") == "UAGC"
     assert transcribe("TTAGCC") == "AAUCGG"
+    assert transcribe("ACTGAACCC") == "UGACUUGGG"
+
 
     # Test with an empty DNA sequence
     try:
@@ -53,6 +55,7 @@ def test_reverse_transcribe():
     assert reverse_transcribe("AAA") == "UUU"
     assert reverse_transcribe("ATCG") == "CGAU"
     assert reverse_transcribe("TTAGCC") == "GGCUAA"
+    assert reverse_transcribe("ACTGAACCC") == "GGGUUCAGU"
 
     # Test with an empty input
     try:
