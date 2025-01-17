@@ -95,7 +95,7 @@ class Parser:
 
         nseq = 0
         # 'with open' reads the filename as f_obj
-        with open(self.filename, "r") as f_obj: 
+        with open(self.filename, "r") as f_obj:
             rec = self.get_record(
                 f_obj
             )  # will be a generator that yields tuples of strings
@@ -108,13 +108,13 @@ class Parser:
             if nseq == 0:
                 raise ValueError(f"File ({self.filename}) had 0 lines.")
 
-        # another way to do this with the original construction: 
+        # another way to do this with the original construction:
         #    while True:
         #        rec = self.get_record(f_obj)
-        #        yield rec 
+        #        yield rec
         # is to implement for the FastaParser/FastqParser subclasses' _get_record
         # functionality where you get (with `next(f_obj)`, for example) two lines
-        # at a time for the FastaParser and simply assume the first is the 
+        # at a time for the FastaParser and simply assume the first is the
         # header and the second is the sequence, or something similar.
 
     def _get_record(

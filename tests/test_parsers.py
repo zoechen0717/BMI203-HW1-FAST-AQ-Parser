@@ -34,32 +34,36 @@ def test_FastaParser():
     provided in /tests/bad.fa and /tests/empty.fa
     """
     # Valid Fasta
-    fasta_parser = FastaParser("tests/good.fasta")
-    sequences = list(fasta_parser)
-    assert len(sequences) == 2
-    assert sequences[0] == ("seq1", "ATGC")
-    assert sequences[1] == ("seq2", "GCTA")
+    parser = FastaParser("tests/good.fasta")
+    seq = list(fasta_parser)
+    assert seq[0] == ("seq1", "ATGC")
+    assert seq[1] == ("seq2", "GCTA")
 
     # Eempty Fasta
-    fasta_parser = FastaParser("tests/blank.fasta")
+    parser = FastaParser("tests/blank.fasta")
     with pytest.raises(ValueError, match="File .* had 0 lines"):
-        list(fasta_parser)
+        list(parser)
 
     # Bad Fasta
-    fasta_parser = FastaParser("tests/bad.fasta")
-    with pytest.raises(ValueError):
-        list(fasta_parser)
+    parser = FastaParser("tests/bad.fasta")
+    assert parser == ("seq1", "ATGC")
 
 
 def test_FastaFormat():
     """
-    Test to make sure that a fasta file is being read in if a fastq file is
+    Test to make sure that a fasta file is being read in, if a fastq file is
     read, the first item is None
     """
     # Test if a Fastq file is passed instead of Fasta
-    fasta_parser = FastaParser("tests/good.fastq")
-    with pytest.raises(ValueError):
-        list(fasta_parser)
+    parser = FastaParser("tests/good.fastq")
+    seq = list(parser)
+    assert seq[0] == (None, '@seq1')
+    assert seq[1] == (None, 'ATGC')
+    assert seq[2] == (None, '+')
+    assert seq[3] == (None, 'IIII')
+    assert seq[4] == (None, '@seq2')
+    assert seq[5] == (None, 'GCTA')
+
 
 
 def test_FastqParser():
@@ -69,27 +73,26 @@ def test_FastqParser():
     in the example Fastq File.
     """
     # valid Fastq
-    fastq_parser = FastqParser("tests/good.fastq")
-    reads = list(fastq_parser)
-    assert len(reads) == 2
+    parser = FastqParser("tests/good.fastq")
+    reads = list(parser)
     assert reads[0] == ("seq1", "ATGC", "IIII")
     assert reads[1] == ("seq2", "GCTA", "JJJJ")
 
     # empty Fastq
-    fastq_parser = FastqParser("tests/blank.fastq")
+    parser = FastqParser("tests/blank.fastq")
     with pytest.raises(ValueError, match="File .* had 0 lines"):
-        list(fastq_parser)
+        list(parser)
 
     # corrupted Fastq
-    fastq_parser = FastqParser("tests/bad.fastq")
-    with pytest.raises(ValueError):
-        list(fastq_parser)
+    parser = FastqParser("tests/bad.fastq")
+    assert parser == ('seq1', 'ATGC', 'IIII')
 
 def test_FastqFormat():
     """
     Test to make sure fastq file is being read in. If this is a fasta file, the
     first line is None
     """
-    fastq_parser = FastqParser("tests/good.fasta")
-    with pytest.raises(ValueError):
-        list(fastq_parser)
+    parser = FastqParser("tests/good.fasta")
+    reads = list(parser)
+    assert reads[0] == (None, '>seq1', 'ATGC')
+    assert reads[1] == (None, '>seq2', 'GCTA')
